@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Membership — Inclusive Learning Supports</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #faf8f2; color: #1a1a1a; min-height: 100vh; }
+  nav { background: #faf8f2; border-bottom: 1px solid #e8e4d8; padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+  .nav-logo { font-size: 15px; font-weight: 600; color: #1a1a1a; text-decoration: none; }
+  .nav-back { font-size: 13px; color: #888; text-decoration: none; display: flex; align-items: center; gap: 6px; padding: 7px 16px; border: 1px solid #e0ddd4; border-radius: 999px; transition: all 0.15s; }
+  .nav-back:hover { background: #f0ece0; color: #1a1a1a; }
+  .toggle-wrap { display: flex; justify-content: center; padding: 40px 32px 0; }
+  .toggle-bar { display: flex; background: #f0ece0; border-radius: 999px; padding: 4px; }
+  .tog { padding: 9px 28px; border-radius: 999px; font-size: 14px; font-family: inherit; font-weight: 500; cursor: pointer; border: none; background: transparent; color: #888; transition: all 0.2s; }
+  .tog.active { background: #1a1a1a; color: #faf8f2; }
+  .page { display: none; }
+  .page.visible { display: block; }
+  .eyebrow { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #c9b97a; margin-bottom: 14px; }
+  .annual-hero { background: #1a1a1a; padding: 52px 32px 44px; text-align: center; }
+  .annual-hero h1 { font-size: 34px; font-weight: 600; color: #faf8f2; line-height: 1.2; margin-bottom: 12px; }
+  .annual-hero p { font-size: 15px; color: #888; max-width: 440px; margin: 0 auto 32px; line-height: 1.6; }
+  .price-row { display: flex; align-items: baseline; justify-content: center; gap: 8px; margin-bottom: 32px; }
+  .price-big { font-size: 52px; font-weight: 600; color: #faf8f2; }
+  .price-period { font-size: 16px; color: #666; }
+  .hero-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .btn-gold { padding: 13px 36px; border-radius: 999px; background: #c9b97a; color: #1a1a1a; font-size: 14px; font-weight: 600; border: none; cursor: pointer; font-family: inherit; text-decoration: none; display: inline-block; transition: background 0.15s; }
+  .btn-gold:hover { background: #d4c78a; }
+  .btn-ghost { padding: 13px 36px; border-radius: 999px; background: transparent; color: #aaa; font-size: 14px; border: 1px solid #333; cursor: pointer; font-family: inherit; text-decoration: none; display: inline-block; transition: all 0.15s; }
+  .btn-ghost:hover { border-color: #555; color: #ccc; }
+  .trust-strip { background: #111; padding: 14px 32px; display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; border-top: 1px solid #2a2a2a; }
+  .trust-item { font-size: 12px; color: #666; display: flex; align-items: center; gap: 6px; }
+  .trust-dot { width: 6px; height: 6px; border-radius: 50%; background: #c9b97a; flex-shrink: 0; }
+  .body-wrap { background: #faf8f2; padding: 48px 32px; max-width: 860px; margin: 0 auto; }
+  .section-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #bbb; margin-bottom: 20px; text-align: center; }
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 40px; }
+  .stat-card { background: #fff; border: 1px solid #e8e4d8; border-radius: 14px; padding: 20px 16px; text-align: center; }
+  .stat-num { font-size: 28px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px; }
+  .stat-label { font-size: 12px; color: #aaa; line-height: 1.4; }
+  .who-box { background: #fff; border: 1px solid #e8e4d8; border-radius: 16px; padding: 24px; margin-bottom: 32px; }
+  .who-title { font-size: 15px; font-weight: 600; color: #1a1a1a; margin-bottom: 16px; }
+  .who-list { display: flex; flex-direction: column; gap: 12px; }
+  .who-item { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: #555; line-height: 1.5; }
+  .who-check { width: 20px; height: 20px; border-radius: 50%; background: #e8f5ee; display: flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; margin-top: 1px; color: #2a7a4b; font-weight: 700; }
+  .topics-wrap { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 40px; }
+  .topic-pill { padding: 6px 16px; border-radius: 999px; background: #f0ece0; font-size: 12px; color: #555; border: 1px solid #e0ddd4; }
+  .includes-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 40px; }
+  .inc-item { display: flex; align-items: center; gap: 12px; font-size: 14px; color: #444; padding: 14px 16px; background: #fff; border: 1px solid #e8e4d8; border-radius: 12px; }
+  .inc-icon { width: 32px; height: 32px; border-radius: 50%; background: #f0ece0; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+  .dark-cta { background: #1a1a1a; border-radius: 20px; padding: 36px; text-align: center; }
+  .dark-cta p { font-size: 13px; color: #666; margin-bottom: 6px; }
+  .dark-cta h3 { font-size: 22px; font-weight: 600; color: #faf8f2; margin-bottom: 24px; }
+  .lifetime-hero { background: #0e0e0e; padding: 52px 32px 44px; text-align: center; position: relative; overflow: hidden; }
+  .gold-glow { position: absolute; top: -80px; left: 50%; transform: translateX(-50%); width: 400px; height: 250px; background: radial-gradient(ellipse, rgba(201,185,122,0.12) 0%, transparent 70%); pointer-events: none; }
+  .lifetime-hero h1 { font-size: 34px; font-weight: 600; color: #faf8f2; line-height: 1.2; margin-bottom: 12px; position: relative; }
+  .lifetime-hero p { font-size: 15px; color: #888; max-width: 440px; margin: 0 auto 24px; line-height: 1.6; position: relative; }
+  .badge-row { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; position: relative; }
+  .badge { padding: 5px 16px; border-radius: 999px; font-size: 11px; font-weight: 600; }
+  .badge-gold { background: rgba(201,185,122,0.15); border: 1px solid rgba(201,185,122,0.4); color: #c9b97a; }
+  .badge-white { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #aaa; }
+  .price-once { font-size: 13px; color: #555; margin-bottom: 6px; position: relative; }
+  .price-big-lt { font-size: 56px; font-weight: 600; color: #faf8f2; position: relative; line-height: 1; margin-bottom: 6px; }
+  .price-note { font-size: 12px; color: #c9b97a; margin-bottom: 32px; position: relative; }
+  .value-banner { background: #1a1a1a; border-radius: 16px; padding: 22px 28px; margin-bottom: 32px; display: flex; align-items: center; justify-content: space-around; flex-wrap: wrap; gap: 20px; }
+  .val-item { text-align: center; }
+  .val-label { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+  .val-num { font-size: 22px; font-weight: 600; color: #faf8f2; }
+  .val-num.gold { color: #c9b97a; }
+  .val-divider { width: 1px; height: 40px; background: #2a2a2a; }
+  .compare-wrap { background: #fff; border: 1px solid #e8e4d8; border-radius: 16px; overflow: hidden; margin-bottom: 32px; }
+  .compare-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .compare-table th { text-align: left; padding: 14px 20px; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #aaa; font-weight: 600; background: #faf8f2; border-bottom: 1px solid #e8e4d8; }
+  .compare-table th:not(:first-child) { text-align: center; }
+  .compare-table td { padding: 14px 20px; border-bottom: 0.5px solid #f5f2ea; color: #555; }
+  .compare-table td:first-child { font-weight: 500; color: #1a1a1a; }
+  .compare-table td:not(:first-child) { text-align: center; }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .check-yes { color: #2a7a4b; font-size: 16px; font-weight: 700; }
+  .check-no { color: #ddd; font-size: 16px; }
+  .highlight-col { background: rgba(201,185,122,0.06); }
+  .lifetime-cta { background: #1a1a1a; border-radius: 20px; padding: 40px 32px; text-align: center; }
+  .lifetime-cta h3 { font-size: 24px; font-weight: 600; color: #faf8f2; margin-bottom: 8px; }
+  .lifetime-cta p { font-size: 14px; color: #666; margin-bottom: 28px; line-height: 1.6; }
+  .btn-gold-lg { padding: 15px 44px; border-radius: 999px; background: #c9b97a; color: #1a1a1a; font-size: 15px; font-weight: 600; border: none; cursor: pointer; font-family: inherit; text-decoration: none; display: inline-block; transition: background 0.15s; }
+  .btn-gold-lg:hover { background: #d4c78a; }
+  .guarantee { font-size: 12px; color: #444; margin-top: 16px; }
+  @media (max-width: 600px) {
+    nav { padding: 14px 20px; }
+    .annual-hero, .lifetime-hero { padding: 40px 20px 36px; }
+    .annual-hero h1, .lifetime-hero h1 { font-size: 26px; }
+    .body-wrap { padding: 36px 20px; }
+    .trust-strip { gap: 16px; padding: 12px 20px; }
+    .val-divider { display: none; }
+    .tog { padding: 9px 18px; font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="https://www.inclusivelearningsupports.com">Inclusive Learning Supports</a>
+  <a class="nav-back" href="https://www.inclusivelearningsupports.com">&#8592; Back to site</a>
+</nav>
+
+<div class="toggle-wrap">
+  <div class="toggle-bar">
+    <button class="tog active" onclick="showPage('annual',this)">Annual bundle</button>
+    <button class="tog" onclick="showPage('lifetime',this)">Lifetime library</button>
+  </div>
+</div>
+
+<!-- ANNUAL -->
+<div class="page visible" id="page-annual">
+  <div class="annual-hero">
+    <div class="eyebrow">Annual membership</div>
+    <h1>100 clinician-made<br>worksheets, every year</h1>
+    <p>Evidence-based resources covering tracing, fine motor, alphabet recognition, hygiene, and more — plus 12 customized worksheets, one per month.</p>
+    <div class="price-row">
+      <span class="price-big">$129</span>
+      <span class="price-period">/ year</span>
+    </div>
+    <div class="hero-btns">
+      <a class="btn-gold" href="https://www.inclusivelearningsupports.com/shop">Get annual access ↗</a>
+      <a class="btn-ghost" href="#annual-detail">See what's included</a>
+    </div>
+  </div>
+  <div class="trust-strip">
+    <div class="trust-item"><div class="trust-dot"></div>Instant PDF download</div>
+    <div class="trust-item"><div class="trust-dot"></div>Print-ready files</div>
+    <div class="trust-item"><div class="trust-dot"></div>Built by a BCBA</div>
+    <div class="trust-item"><div class="trust-dot"></div>1 custom worksheet/month</div>
+  </div>
+  <div class="body-wrap" id="annual-detail">
+    <div class="section-label">What you get</div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-num">100</div><div class="stat-label">Ready-to-print worksheets</div></div>
+      <div class="stat-card"><div class="stat-num">12</div><div class="stat-label">Customized worksheets — 1/month</div></div>
+      <div class="stat-card"><div class="stat-num">10+</div><div class="stat-label">Skill categories covered</div></div>
+      <div class="stat-card"><div class="stat-num">12mo</div><div class="stat-label">Full access period</div></div>
+    </div>
+    <div class="who-box">
+      <div class="who-title">This is for you if you're a...</div>
+      <div class="who-list">
+        <div class="who-item"><div class="who-check">✓</div>Parent supporting your child's development at home</div>
+        <div class="who-item"><div class="who-check">✓</div>Behavior analyst or therapist looking for ready-made materials</div>
+        <div class="who-item"><div class="who-check">✓</div>Special education teacher needing printable skill sheets</div>
+        <div class="who-item"><div class="who-check">✓</div>Caregiver wanting structured, evidence-based activities</div>
+      </div>
+    </div>
+    <div class="section-label">Topics covered</div>
+    <div class="topics-wrap">
+      <div class="topic-pill">Alphabet tracing</div><div class="topic-pill">Fine motor skills</div>
+      <div class="topic-pill">Body parts</div><div class="topic-pill">Daily hygiene</div>
+      <div class="topic-pill">Emotions</div><div class="topic-pill">Colors & shapes</div>
+      <div class="topic-pill">Numbers 1–20</div><div class="topic-pill">Following directions</div>
+      <div class="topic-pill">Matching</div><div class="topic-pill">Sorting</div>
+      <div class="topic-pill">Self-care routines</div><div class="topic-pill">Vocabulary building</div>
+    </div>
+    <div class="section-label">Everything included</div>
+    <div class="includes-list">
+      <div class="inc-item"><div class="inc-icon">📄</div>100 print-ready PDF worksheets</div>
+      <div class="inc-item"><div class="inc-icon">✏️</div>12 customized worksheets — 1 delivered every month</div>
+      <div class="inc-item"><div class="inc-icon">📧</div>Priority email support</div>
+      <div class="inc-item"><div class="inc-icon">🔄</div>New content added throughout the year</div>
+      <div class="inc-item"><div class="inc-icon">📱</div>Access on any device — print from anywhere</div>
+    </div>
+    <div class="dark-cta">
+      <p>One yearly payment · Cancel anytime</p>
+      <h3>Start using them today</h3>
+      <a class="btn-gold" href="https://www.inclusivelearningsupports.com/shop">Get annual access — $129/year ↗</a>
+    </div>
+  </div>
+</div>
+
+<!-- LIFETIME -->
+<div class="page" id="page-lifetime">
+  <div class="lifetime-hero">
+    <div class="gold-glow"></div>
+    <div class="eyebrow">Lifetime membership</div>
+    <h1>210 pages.<br>Yours forever.</h1>
+    <p>The complete library — every worksheet, every category, every future addition. One payment, lifetime access. No renewals. Ever.</p>
+    <div class="badge-row">
+      <span class="badge badge-gold">Best value</span>
+      <span class="badge badge-white">No renewals ever</span>
+      <span class="badge badge-white">All future updates free</span>
+    </div>
+    <div class="price-once">One-time payment</div>
+    <div class="price-big-lt">$169</div>
+    <div class="price-note">Everything included — forever</div>
+    <div class="hero-btns" style="position:relative;">
+      <a class="btn-gold" href="https://www.inclusivelearningsupports.com/shop">Get lifetime access ↗</a>
+      <a class="btn-ghost" href="#lifetime-detail">Compare plans</a>
+    </div>
+  </div>
+  <div class="trust-strip">
+    <div class="trust-item"><div class="trust-dot"></div>210 pages included</div>
+    <div class="trust-item"><div class="trust-dot"></div>All future pages free</div>
+    <div class="trust-item"><div class="trust-dot"></div>Instant PDF download</div>
+    <div class="trust-item"><div class="trust-dot"></div>Built by a BCBA</div>
+  </div>
+  <div class="body-wrap" id="lifetime-detail">
+    <div class="value-banner">
+      <div class="val-item"><div class="val-label">Total library value</div><div class="val-num">$200+</div></div>
+      <div class="val-divider"></div>
+      <div class="val-item"><div class="val-label">You pay once</div><div class="val-num gold">$169</div></div>
+      <div class="val-divider"></div>
+      <div class="val-item"><div class="val-label">vs. Annual plan</div><div class="val-num">Saves $129/yr</div></div>
+      <div class="val-divider"></div>
+      <div class="val-item"><div class="val-label">Future updates</div><div class="val-num gold">Free</div></div>
+    </div>
+    <div class="section-label">Annual vs lifetime</div>
+    <div class="compare-wrap">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>What's included</th>
+            <th>Annual — $129/yr</th>
+            <th style="color:#c9b97a;">Lifetime — $169</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>100 core worksheets</td><td><span class="check-yes">✓</span></td><td class="highlight-col"><span class="check-yes">✓</span></td></tr>
+          <tr><td>210 full library pages</td><td><span class="check-no">—</span></td><td class="highlight-col"><span class="check-yes">✓</span></td></tr>
+          <tr><td>12 customized worksheets/year</td><td><span class="check-yes">✓</span></td><td class="highlight-col"><span class="check-yes">✓</span></td></tr>
+          <tr><td>Translation worksheets</td><td><span class="check-yes">✓</span></td><td class="highlight-col"><span class="check-yes">✓</span></td></tr>
+          <tr><td>Training bundle sheets</td><td><span class="check-no">—</span></td><td class="highlight-col"><span class="check-yes">✓</span></td></tr>
+          <tr><td>All future additions</td><td><span class="check-no">—</span></td><td class="highlight-col"><span class="check-yes">✓</span></td></tr>
+          <tr><td>Priority email support</td><td><span class="check-yes">✓</span></td><td class="highlight-col"><span class="check-yes">✓</span></td></tr>
+          <tr><td>Access duration</td><td>12 months</td><td class="highlight-col" style="color:#c9b97a;font-weight:600;">Forever</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="lifetime-cta">
+      <div class="eyebrow">One payment. Everything included.</div>
+      <h3>The complete library</h3>
+      <p>210 pages today + every worksheet added in the future —<br>no extra charge, ever.</p>
+      <a class="btn-gold-lg" href="https://www.inclusivelearningsupports.com/shop">Get lifetime access — $169 ↗</a>
+      <div class="guarantee">30-day satisfaction guarantee &nbsp;·&nbsp; Instant access &nbsp;·&nbsp; PDF download</div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showPage(name, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('visible'));
+  document.querySelectorAll('.tog').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('visible');
+  el.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
